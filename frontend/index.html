@@ -4,27 +4,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroStudy | AI Study Assistant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>NeuroStudy | Advanced AI Study Core</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="wizard.css">
-    <!-- Chart.js for visualization -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF for PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
-    <div class="app-container">
+
+    <div id="toast-container"></div>
+
+
+    <!-- Auth Screens Overlay -->
+    <div id="auth-overlay" class="overlay">
+        <div class="card auth-card glass">
+            <div id="login-view">
+                <div class="logo-icon" style="margin: 0 auto 1.5rem;">NS</div>
+                <h2>Initialize AI Identity</h2>
+                <p class="subtitle" style="margin-bottom: 2rem;">Access your academic neural network</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="login-user" placeholder="e.g. quantum_scholar" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Encrypted Key (Password)</label>
+                        <input type="password" id="login-pass" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width:100%;">Connect Core</button>
+                    <button type="button" onclick="startDemo()" class="btn-primary" style="width:100%; margin-top: 0.5rem; background: var(--accent);">Initialize Demo Mode</button>
+                    <p id="goto-register" style="text-align:center; margin-top:1rem; cursor:pointer; font-size: 0.9rem;">New identity? Register here.</p>
+                </form>
+            </div>
+            
+            <div id="register-view" class="hidden">
+                <div class="logo-icon" style="margin: 0 auto 1.5rem;">NS</div>
+                <h2>Create AI Identity</h2>
+                <p class="subtitle" style="margin-bottom: 2rem;">Join the NeuroStudy collective</p>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="reg-user" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="reg-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="reg-pass" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width:100%;">Initialize Identity</button>
+                    <p id="goto-login" style="text-align:center; margin-top:1rem; cursor:pointer; font-size: 0.9rem;">Already connected? Login here.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container hidden" id="main-app">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
             <div class="logo">
-                <span class="logo-icon">NS</span>
+                <div class="logo-icon">NS</div>
                 <h2>NeuroStudy</h2>
             </div>
             <ul>
-                <li class="active" onclick="showSection('dashboard')">Dashboard</li>
-                <li onclick="showSection('logger')">Log Session</li>
-                <li onclick="showSection('insights')">AI Insights</li>
-                <li onclick="showSection('roadmap')">Roadmap</li>
+                <li class="active" onclick="showSection('dashboard')">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </li>
+                <li onclick="showSection('logger')">
+                    <i data-lucide="pen-tool"></i> Log Session
+                </li>
+                <li onclick="showSection('roadmap')">
+                    <i data-lucide="map"></i> Study Architect
+                </li>
+                <li onclick="showSection('gamification')">
+                    <i data-lucide="trophy"></i> Achievements
+                </li>
+                <li onclick="logout()" style="margin-top: auto; color: var(--accent);">
+                    <i data-lucide="log-out"></i> Disconnect
+                </li>
             </ul>
         </nav>
 
@@ -33,30 +99,77 @@
 
             <!-- Dashboard Section -->
             <section id="dashboard" class="section active">
-                <header>
-                    <h1>Welcome Back, Scholar</h1>
-                    <p class="subtitle">Here is your daily learning overview</p>
+                <header style="display: flex; justify-content: space-between; align-items: end;">
+                    <div>
+                        <h1 id="user-greeting">Greetings, Scholar</h1>
+                        <p class="subtitle">Neural pattern recognition and behavior modification</p>
+                    </div>
+                    <div class="level-badge glass">
+                        <span id="user-level">LVL 1</span>
+                        <div class="xp-bar-container">
+                            <div id="xp-fill"></div>
+                        </div>
+                        <small id="xp-text">0/1000 XP</small>
+                    </div>
+                    <button onclick="exportPDF()" style="background:linear-gradient(135deg,#6366f1,#ec4899);border:none;color:white;padding:0.7rem 1.4rem;border-radius:12px;font-weight:700;cursor:pointer;font-size:0.85rem;display:flex;align-items:center;gap:8px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                        📄 Export Report
+                    </button>
                 </header>
 
                 <div class="stats-grid">
                     <div class="card stat-card">
-                        <h3>Total Study Time</h3>
-                        <p id="total-time">0h</p>
+                        <h3>Productivity Score</h3>
+                        <p id="prod-score">--</p>
+                    </div>
+                    <div class="card stat-card accent">
+                        <h3>Study Streak</h3>
+                        <p id="study-streak">0 Days</p>
                     </div>
                     <div class="card stat-card">
-                        <h3>Avg. Focus Level</h3>
-                        <p id="avg-focus">-</p>
+                        <h3>Neuro-Projection</h3>
+                        <p id="prediction-count">-- min/day</p>
+                        <small id="prediction-trend" style="color: var(--primary-light);">Trend: Calculating</small>
                     </div>
                     <div class="card stat-card">
-                        <h3>Peak Performance</h3>
-                        <p id="peak-time">-</p>
+                        <h3>Streak Risk</h3>
+                        <p id="streak-risk">--</p>
                     </div>
                 </div>
 
-                <div class="charts-container">
+                <div class="charts-grid">
                     <div class="card chart-card">
-                        <h3>Weekly Focus Trend</h3>
-                        <canvas id="focusChart"></canvas>
+                        <h3>Weekly Activity Heatmap</h3>
+                        <div id="heatmap-container" class="heatmap glass"></div>
+                    </div>
+                    <div class="card chart-card">
+                        <h3>Subject Concentration</h3>
+                        <div style="max-height: 250px; display: flex; justify-content: center; align-items: center; margin-top: 1rem;">
+                            <canvas id="distributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass diagnosis-card" style="margin-top: 2rem; border-left: 4px solid var(--accent);">
+                    <div class="ai-header">
+                        <i data-lucide="shield-check" style="color: var(--accent);"></i>
+                        <h3>Neural Diagnosis (Intelligence Proof)</h3>
+                    </div>
+                    <div id="diagnosis-list" class="diagnosis-area">
+                        <p class="subtitle">System standby. Log sessions to generate diagnostic intelligence.</p>
+                    </div>
+                </div>
+
+                <div class="card glass ai-card" style="margin-top: 2rem;">
+                    <div class="ai-header">
+                        <i data-lucide="brain-circuit" style="color: var(--primary);"></i>
+                        <h3>Neural Consultation Chat</h3>
+                    </div>
+                    <div id="chat-messages" class="chat-area">
+                        <p class="bot-msg">System initialized. Awaiting queries regarding study strategy or vector data.</p>
+                    </div>
+                    <div class="chat-input-row">
+                        <input type="text" id="chat-input" placeholder="Ask AI: What should I study today?">
+                        <button onclick="sendChatMessage()" class="btn-primary" style="padding: 0.8rem 1.2rem;">Send</button>
                     </div>
                 </div>
             </section>
@@ -64,147 +177,99 @@
             <!-- Logger Section -->
             <section id="logger" class="section hidden">
                 <header>
-                    <h1>Log Study Session</h1>
-                    <p class="subtitle">Record your progress to feed the AI</p>
+                    <h1>Record Academic Session</h1>
+                    <p class="subtitle">XP multiplier active for high-focus sessions</p>
                 </header>
 
                 <div class="card form-card">
                     <form id="log-form">
                         <div class="form-group">
-                            <label>Subject</label>
-                            <input type="text" id="subject" placeholder="e.g. Neural Networks" required>
+                            <label><i data-lucide="book" style="width:14px; height:14px;"></i> Target Subject</label>
+                            <input type="text" id="subject" placeholder="e.g. Quantum Neural Networks" required>
                         </div>
-
                         <div class="form-group">
-                            <label>Duration (minutes)</label>
-                            <input type="number" id="duration" placeholder="e.g. 45" required>
+                            <label><i data-lucide="clock" style="width:14px; height:14px;"></i> Temporal Duration (Min)</label>
+                            <input type="number" id="duration" placeholder="e.g. 60" required>
                         </div>
-
                         <div class="form-group">
-                            <label>Focus Rating (1-10)</label>
-                            <input type="range" id="focus" min="1" max="10" value="5"
-                                oninput="document.getElementById('focus-val').innerText = this.value">
-                            <span id="focus-val" class="range-val">5</span>
+                            <label><i data-lucide="zap" style="width:14px; height:14px;"></i> Focus Level (1-10)</label>
+                            <input type="range" id="focus" min="1" max="10" value="7">
+                            <div style="text-align: right; color: var(--primary-light); font-weight: 700;">
+                                <span id="focus-val">7</span>/10
+                            </div>
                         </div>
-
                         <div class="form-group">
-                            <label>Notes (Optional)</label>
-                            <textarea id="notes" placeholder="Brief summary of what you learned..."></textarea>
+                            <label><i data-lucide="file-text" style="width:14px; height:14px;"></i> Session Observations</label>
+                            <textarea id="notes" placeholder="Abstract concepts addressed..."></textarea>
                         </div>
-
-                        <button type="submit" class="btn-primary">Save Session</button>
+                        <button type="submit" class="btn-primary" style="width:100%">Commit to Database</button>
                     </form>
                 </div>
             </section>
 
-            <!-- Insights Section -->
-            <section id="insights" class="section hidden">
+            <!-- Gamification Section -->
+            <section id="gamification" class="section hidden">
                 <header>
-                    <h1>AI Analysis</h1>
-                    <p class="subtitle">Deep learning powered suggestions</p>
+                    <h1>Achievement Hub</h1>
+                    <p class="subtitle">Milestones earned through your neural dedication</p>
                 </header>
-
-                <div class="card ai-card">
-                    <div class="ai-header">
-                        <div class="ai-icon">✨</div>
-                        <h3>AI Recommendation</h3>
-                    </div>
-                    <p id="ai-suggestion">Loading analysis...</p>
-                    <button onclick="fetchAnalysis()" class="btn-secondary">Refresh Analysis</button>
+                <div id="badge-grid" class="stats-grid">
+                    <p class="subtitle" style="padding:2rem;">Loading your achievements...</p>
                 </div>
             </section>
 
             <!-- Roadmap Section -->
             <section id="roadmap" class="section hidden">
                 <header>
-                    <h1>Study Roadmap</h1>
-                    <p class="subtitle">Plan your day effectively</p>
+                    <h1>Optimal AI Timetable</h1>
+                    <p class="subtitle">Generate an interval-based academic roadmap</p>
                 </header>
-
                 <div class="card form-card">
-                    <!-- Wizard Container -->
                     <div id="roadmap-wizard">
-
-                        <!-- Step 1: Subject Count -->
                         <div id="step-1" class="wizard-step active-step">
-                            <label>How many subjects do you have?</label>
-                            <input type="number" id="subject-count" min="1" max="10" placeholder="e.g. 3">
-                            <button onclick="wizardNext(1)" class="btn-primary" style="margin-top: 1rem;">Next</button>
+                            <label>Subject Vector Count</label>
+                            <input type="number" id="subject-count" min="1" max="10" value="3">
+                            <button onclick="wizardNext(1)" class="btn-primary" style="margin-top: 2rem; width:100%">Continue</button>
                         </div>
 
-                        <!-- Step 2: Subject Names (Dynamic) -->
                         <div id="step-2" class="wizard-step hidden">
-                            <label>Enter Subject Names:</label>
+                            <label>Define Session Topics:</label>
                             <div id="subject-inputs-container"></div>
-                            <button onclick="wizardNext(2)" class="btn-primary" style="margin-top: 1rem;">Next</button>
+                            <button onclick="wizardNext(2)" class="btn-primary" style="margin-top: 2rem; width:100%">Analyze Complexity</button>
                         </div>
 
-                        <!-- Step 3: Time Range (12h Format) -->
                         <div id="step-3" class="wizard-step hidden">
-                            <label>When are you free to study?</label>
-
-                            <div class="time-input-group" style="margin-bottom: 1rem;">
-                                <small>Start Time</small>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <select id="start-hour" class="time-select">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6" selected>6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                    </select>
-                                    <select id="start-ampm" class="time-select">
-                                        <option value="AM">AM</option>
-                                        <option value="PM" selected>PM</option>
-                                    </select>
+                            <label>Temporal Productivity Window:</label>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+                                <div><small>Opening Boundary</small>
+                                    <select id="start-hour" style="margin-top:5px;"></select>
+                                </div>
+                                <div><small>Closing Boundary</small>
+                                    <select id="end-hour" style="margin-top:5px;"></select>
                                 </div>
                             </div>
-
-                            <div class="time-input-group" style="margin-bottom: 1.5rem;">
-                                <small>End Time</small>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <select id="end-hour" class="time-select">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10" selected>10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                    </select>
-                                    <select id="end-ampm" class="time-select">
-                                        <option value="AM">AM</option>
-                                        <option value="PM" selected>PM</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <button onclick="submitWizard()" class="btn-primary">Generate Roadmap Chart</button>
+                            <button onclick="submitWizard()" class="btn-primary" style="margin-top: 3rem; width:100%">Synthesize Timetable</button>
                         </div>
-
                     </div>
                 </div>
-
-                <div id="roadmap-display" class="card ai-card hidden" style="margin-top: 2rem;">
-                    <!-- Roadmap content will go here -->
-                </div>
+                <div id="roadmap-display" class="card hidden" style="margin-top: 2rem; background: rgba(15,23,42,0.95); border: 1px solid rgba(99,102,241,0.3); border-radius: 20px; padding: 0; overflow: hidden;"></div>
             </section>
 
         </main>
     </div>
-    <script src="app.js"></script>
+
+    <script>
+        function toggleAuth(isRegister) {
+            console.log('Toggling auth:', isRegister);
+            document.getElementById('login-view').classList.toggle('hidden', isRegister);
+            document.getElementById('register-view').classList.toggle('hidden', !isRegister);
+        }
+
+        document.getElementById('goto-register')?.addEventListener('click', () => toggleAuth(true));
+        document.getElementById('goto-login')?.addEventListener('click', () => toggleAuth(false));
+    </script>
+    <script src="app.js?v=3"></script>
+    <script>lucide.createIcons();</script>
 </body>
 
 </html>

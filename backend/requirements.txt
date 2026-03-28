@@ -1,6 +1,10 @@
 fastapi
 uvicorn
-pydantic
+pydantic[email]
 pandas
 scikit-learn
 python-multipart
+pydantic-settings
+sqlalchemy
+passlib[bcrypt]
+pyjwt

@@ -37,12 +37,18 @@ def generate_ai_roadmap(
     subject_index = 0
     slot_num = 0
 
-    while current_time < end and subject_index < len(subjects):
-        subject = subjects[subject_index]
+    PHASES = [
+        {"name": "Theoretical Context", "protocol": "LEARN", "tip": "Synthesizing new concepts into memory."},
+        {"name": "Neural Extraction", "protocol": "QUESTIONS", "tip": "Retrieving data via active recall."},
+        {"name": "Neural Encoding", "protocol": "PRACTICAL", "tip": "Hardcoding knowledge through application."}
+    ]
+
+    while current_time + 0.75 <= end:
+        subject = subjects[(slot_num // 3) % len(subjects)] # Change subject every 3 phases
+        phase = PHASES[slot_num % 3]
+        
         study_end = current_time + 0.75     # 45 min study
         rest_end = current_time + 1.0       # 15 min rest
-
-        if study_end > end: break
 
         # Determine time context for tip
         hour = int(current_time)
@@ -56,32 +62,33 @@ def generate_ai_roadmap(
         slot_num += 1
         roadmap.append({
             "slot": f"Slot {slot_num}",
-            "subject": subject,
+            "subject": f"{subject}: {phase['name']}",
             "start_time": current_time,
             "end_time": study_end,
-            "time_range": f"{format_time(current_time)} – {format_time(study_end)}",
+            "time_range": f"{format_time(current_time)} - {format_time(study_end)}",
             "duration": "45 min",
             "type": "Study",
+            "protocol": phase['protocol'],
             "focus_level": "High Focus" if hour < 12 else "Optimal Focus",
-            "tip": f"{TIPS[context]} Use active recall on {subject}."
+            "tip": f"{phase['tip']} {TIPS[context]}"
         })
 
         # Rest slot
         if rest_end <= end:
             roadmap.append({
                 "slot": "",
-                "subject": "🌿 Neural Reset",
+                "subject": "Neural Reset",
                 "start_time": study_end,
                 "end_time": rest_end,
-                "time_range": f"{format_time(study_end)} – {format_time(rest_end)}",
+                "time_range": f"{format_time(study_end)} - {format_time(rest_end)}",
                 "duration": "15 min",
                 "type": "Rest",
                 "focus_level": "Recovery",
-                "tip": "Step away from screens. Hydrate. Breathe deeply."
+                "protocol": "RECHARGE",
+                "tip": "Bio-system recovery engaged. Step away from screens."
             })
 
         current_time = rest_end
-        subject_index += 1
 
     return {
         "roadmap": roadmap,

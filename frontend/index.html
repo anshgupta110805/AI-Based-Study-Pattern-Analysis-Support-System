@@ -19,6 +19,7 @@
 
 <body>
 
+    <div class="neural-bg"></div>
     <div id="toast-container"></div>
 
 
@@ -94,9 +95,7 @@
             </ul>
         </nav>
 
-        <!-- Main Content -->
         <main class="main-content">
-
             <!-- Dashboard Section -->
             <section id="dashboard" class="section active">
                 <header style="display: flex; justify-content: space-between; align-items: end;">
@@ -111,8 +110,8 @@
                         </div>
                         <small id="xp-text">0/1000 XP</small>
                     </div>
-                    <button onclick="exportPDF()" style="background:linear-gradient(135deg,#6366f1,#ec4899);border:none;color:white;padding:0.7rem 1.4rem;border-radius:12px;font-weight:700;cursor:pointer;font-size:0.85rem;display:flex;align-items:center;gap:8px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-                        📄 Export Report
+                    <button id="export-report-btn" class="glass" style="background:linear-gradient(135deg,var(--primary),var(--secondary)); border:none; color:white; padding:0.8rem 1.6rem; border-radius:12px; font-weight:800; cursor:pointer; font-size:0.9rem; display:flex; align-items:center; gap:10px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <i data-lucide="file-down"></i> Export Neural Report
                     </button>
                 </header>
 
@@ -227,28 +226,30 @@
                 <div class="card form-card">
                     <div id="roadmap-wizard">
                         <div id="step-1" class="wizard-step active-step">
-                            <label>Subject Vector Count</label>
-                            <input type="number" id="subject-count" min="1" max="10" value="3">
-                            <button onclick="wizardNext(1)" class="btn-primary" style="margin-top: 2rem; width:100%">Continue</button>
+                            <label><i data-lucide="layers" style="width:14px; margin-right:5px;"></i> Subject Vector Count</label>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem;">Scanning academic workload density...</p>
+                            <input type="number" id="subject-count" min="1" max="10" placeholder="e.g. 3" value="3">
+                            <button onclick="wizardNext(1)" class="btn-primary" style="margin-top: 2rem; width:100%">Initialize Sequence</button>
                         </div>
 
                         <div id="step-2" class="wizard-step hidden">
-                            <label>Define Session Topics:</label>
+                            <label><i data-lucide="brain" style="width:14px; margin-right:5px;"></i> Define Subject Vectors</label>
                             <div id="subject-inputs-container"></div>
                             <button onclick="wizardNext(2)" class="btn-primary" style="margin-top: 2rem; width:100%">Analyze Complexity</button>
                         </div>
 
                         <div id="step-3" class="wizard-step hidden">
-                            <label>Temporal Productivity Window:</label>
+                            <label><i data-lucide="clock" style="width:14px; margin-right:5px;"></i> Temporal Productivity Window</label>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem;">Establishing circadian rhythm boundaries...</p>
                             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
-                                <div><small>Opening Boundary</small>
-                                    <select id="start-hour" style="margin-top:5px;"></select>
+                                <div><small style="text-transform:uppercase; font-size: 0.7rem; color: var(--primary);">Start Boundary</small>
+                                    <select id="start-hour" style="margin-top:8px;"></select>
                                 </div>
-                                <div><small>Closing Boundary</small>
-                                    <select id="end-hour" style="margin-top:5px;"></select>
+                                <div><small style="text-transform:uppercase; font-size: 0.7rem; color: var(--primary);">End Boundary</small>
+                                    <select id="end-hour" style="margin-top:8px;"></select>
                                 </div>
                             </div>
-                            <button onclick="submitWizard()" class="btn-primary" style="margin-top: 3rem; width:100%">Synthesize Timetable</button>
+                            <button onclick="submitWizard()" class="btn-primary" style="margin-top: 3rem; width:100%">Synthesize Neural Roadmap</button>
                         </div>
                     </div>
                 </div>
@@ -258,17 +259,31 @@
         </main>
     </div>
 
-    <script>
-        function toggleAuth(isRegister) {
-            console.log('Toggling auth:', isRegister);
-            document.getElementById('login-view').classList.toggle('hidden', isRegister);
-            document.getElementById('register-view').classList.toggle('hidden', !isRegister);
-        }
+    <!-- Terminal HUD for Presentation -->
+    <div id="neural-terminal-overlay" class="neural-overlay">
+        <div class="terminal-window">
+            <div class="scanner-line"></div>
+            <div class="terminal-header">
+                <span>NEURAL ANALYSIS SUITE v4.0</span>
+                <span id="terminal-percent">0%</span>
+            </div>
+            <div id="terminal-log" class="terminal-log">
+                <div class="log-entry info">Initializing NeuroStudy Evaluation Mode...</div>
+                <div class="log-entry info">System: Academic Verification Protocol Engaged.</div>
+            </div>
+        </div>
+    </div>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        function toggleAuth(showRegister) {
+            document.getElementById('login-box').classList.toggle('hidden', showRegister);
+            document.getElementById('register-box').classList.toggle('hidden', !showRegister);
+        }
         document.getElementById('goto-register')?.addEventListener('click', () => toggleAuth(true));
         document.getElementById('goto-login')?.addEventListener('click', () => toggleAuth(false));
     </script>
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=11"></script>
     <script>lucide.createIcons();</script>
 </body>
 

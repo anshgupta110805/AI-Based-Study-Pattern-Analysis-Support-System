@@ -46,6 +46,8 @@ def study_buddy_chat(
 app.include_router(auth.router, prefix="/api")
 app.include_router(sessions.router, prefix="/api")
 app.include_router(roadmap.router, prefix="/api")
+from backend.api import analytics
+app.include_router(analytics.router, prefix="/api")
 
 @app.get("/", tags=["health"])
 def health_check():

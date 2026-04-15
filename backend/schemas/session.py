@@ -21,21 +21,42 @@ class StudySessionResponse(StudySessionBase):
 
 class RoadmapSubject(BaseModel):
     subject: str
-    difficulty: int = 1 # 1=Easy, 2=Medium, 3=Hard
+    priority: int = 1 # 1=Low, 2=Medium, 3=High
 
 class RoadmapRequest(BaseModel):
-    subjects: List[str]
-    start_hour: int
-    end_hour: int
-    difficulty_pref: Optional[str] = "balanced" # high-intensity, balanced, relaxed
+    subjects: List[RoadmapSubject]
+    days: int = 7
+    start_hour: int = 9
+    end_hour: int = 21
+    exam_date: Optional[datetime] = None
+
+class SlotResponse(BaseModel):
+    id: int
+    day_index: int
+    time_block: str
+    subject: str
+    duration_minutes: int
+    protocol: str
+    is_completed: bool
+
+class RoadmapResponse(BaseModel):
+    id: int
+    start_date: datetime
+    end_date: datetime
+    status: str
+    slots: List[SlotResponse]
 
 class AnalyticsResponse(BaseModel):
-    total_hours: float
-    average_focus: float
-    best_time_of_day: str
-    weak_subjects: List[str]
     productivity_score: int
-    suggestion: str
-    next_level_xp_needed: int
-    current_xp: int
+    breakdown: dict
+    personality: str
+    strongest_subject: str
+    weakest_subject: str
+    peak_window: str
+    suggestions: List[dict]
+    subject_health: List[dict]
+    streak_calendar: List[dict]
     level: int
+    current_xp: int
+    next_level_xp_needed: int
+    freeze_tokens: int

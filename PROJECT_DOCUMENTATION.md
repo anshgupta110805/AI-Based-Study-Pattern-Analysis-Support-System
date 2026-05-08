@@ -23,7 +23,7 @@
 - **Domain:** Educational Technology (EdTech)
 - **Category:** AI/ML-based Study Analytics and Performance Evaluation
 - **Development Period:** 2026
-- **Team Members:** Aman, Harsh, Jatin
+- **Team Member:** Ansh Gupta
 
 ### Project Scope
 This is a web-based application designed to help students optimize their study habits through AI-driven insights and personalized recommendations. The system tracks study sessions, analyzes patterns, and provides actionable feedback to improve learning outcomes.
@@ -961,17 +961,9 @@ ELSE:
 
 ### Team Members
 
-**Aman**
-- Role: Backend Developer & AI Algorithm Designer
-- Responsibilities: API development, analytics engine, deployment
-
-**Harsh**
-- Role: Frontend Developer & UI/UX Designer
-- Responsibilities: User interface, styling, user experience optimization
-
-**Jatin**
-- Role: Full-Stack Developer & Tester
-- Responsibilities: Integration, testing, documentation, project management
+**Ansh Gupta**
+- Role: Full Stack Developer & AI Architect
+- Responsibilities: System design, Backend API development, AI analytics engine, Frontend implementation, and Project Documentation.
 
 ### Contribution Guidelines
 

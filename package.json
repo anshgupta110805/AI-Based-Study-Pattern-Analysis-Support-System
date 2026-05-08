@@ -7,6 +7,10 @@
     "start": "./start.sh",
     "dev": "./start.sh"
   },
-  "author": "Aman, Harsh, Jatin",
+  "author": "Ansh Gupta",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anshgupta110805/AI-Based-Study-Pattern-Analysis-Support-System.git"
+  },
   "license": "MIT"
 }

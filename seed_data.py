@@ -19,7 +19,7 @@ cursor.execute("DELETE FROM users")
 users = [
     ("scholar_ansh", "anshkwid@gmail.com", "password123", 2450, 5), # Level 5
     ("researcher_maya", "maya@lab.com", "password123", 850, 2),  # Level 2
-    ("coder_jatin", "jatin@dev.com", "password123", 5200, 11)   # Level 11
+    ("coder_harsh", "harsh@dev.com", "password123", 5200, 11)   # Level 11
 ]
 
 user_ids = []

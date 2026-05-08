@@ -12,9 +12,7 @@ cursor = conn.cursor()
 
 # 1. Profile Data
 student_profiles = [
-    ("Aman_Gupta", "aman@study.edu", "pass123", 4500, 15),
-    ("Harsh_Kumar", "harsh@study.edu", "pass123", 850, 4),
-    ("Jatin_Dev", "jatin@study.edu", "pass123", 2200, 8),
+    ("Ansh_Gupta", "ansh@study.edu", "pass123", 4500, 15),
     ("Jyoti_Learn", "jyoti@study.edu", "pass123", 150, 1)
 ]
 

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to GSD for Antigravity.
+All notable changes to GSD for NeuroStudy.
 
 ## [1.4.0] - 2026-01-17
 
@@ -108,4 +108,4 @@ All notable changes to GSD for Antigravity.
 - Planning Lock, State Persistence, Context Hygiene, Empirical Validation
 
 ### Attribution
-Adapted from [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done) for Google Antigravity.
+Adapted from [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done) for Google NeuroStudy.

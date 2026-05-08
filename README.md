@@ -1,72 +1,51 @@
-# Ralph Loop for Antigravity - Community Issues
+# NeuroStudy - AI-Based Study Pattern Analysis and Support System
 
-Community issue tracker for [Ralph Loop for Antigravity](https://github.com/abhishekbhakat/ralph-loop-for-antigravity), a VS Code extension that enables autonomous AI agent execution using Antigravity.
+NeuroStudy is an AI-powered study pattern analysis and support system designed to help students optimize their learning habits through data-driven insights and personalized recommendations.
 
-## What is Ralph Loop?
+## 🚀 Features
 
-Ralph Loop solves two fundamental problems with AI coding assistants:
+- **Study Session Logging:** Track subject-wise study duration and focus levels.
+- **AI-Powered Analytics:** Intelligent analysis of study patterns and performance.
+- **Smart Roadmap Generation:** Automated study schedule creation with focus optimization.
+- **Interactive Dashboard:** Real-time visualization of learning metrics.
+- **Personalized Insights:** AI-generated recommendations based on individual study patterns.
 
-1. **Context window limitations** - LLMs forget important context mid-task
-2. **Constant oversight required** - AI cannot work autonomously for extended periods
+## 🛠️ Tech Stack
 
-The solution: **externalize memory to files** and run AI agents in **iterative loops** with fresh context per iteration.
+- **Backend:** Python, FastAPI, Pandas, SQLite
+- **Frontend:** HTML5, CSS3 (Vanilla), JavaScript (ES6+), Chart.js
+- **Design:** Modern, premium aesthetics with a neural minimal theme.
 
-### How It Works
+## 📦 Installation
 
-```
-1. Read tasks from PRD.md (task file)
-2. Check progress in progress.txt
-3. Complete exactly ONE task
-4. Append progress (never delete)
-5. Commit changes
-6. Repeat until all tasks done or max iterations reached
-```
+### Prerequisites
+- Python 3.8+
+- Node.js (for frontend development, optional)
 
-Each iteration spawns a fresh Cascade session, ensuring the agent always has full context by reading from disk rather than relying on conversation memory.
+### Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/anshgupta110805/AI-Based-Study-Pattern-Analysis-Support-System.git
+   cd AI-Based-Study-Pattern-Analysis-Support-System
+   ```
 
-## Reporting Issues
+2. Install backend dependencies:
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
 
-Before opening an issue:
+3. Start the application:
+   ```bash
+   ./start.sh
+   ```
 
-1. **Search existing issues** - Your issue may already be reported
-2. **Check requirements**:
-   - VS Code 1.75.0 or later
-   - Antigravity in agent driven mode
-   - A workspace folder with task files
-3. **Gather information**:
-   - OS and version
-   - VS Code version
-   - Ralph Loop extension version
-   - Steps to reproduce
-   - Relevant logs from the "Ralph Loop" output channel
+## 📖 Documentation
+Detailed project documentation can be found in [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md).
 
-### Issue Templates
+## 👤 Author
+**Ansh Gupta**
+- GitHub: [@anshgupta110805](https://github.com/anshgupta110805)
 
-| Template             | Use For                                    |
-|----------------------|--------------------------------------------|
-| **Bug Report**       | Something isn't working as expected        |
-| **Feature Request**  | Suggest new features or improvements       |
-
-## Common Issues
-
-### "No task file selected"
-Select a task file in the sidebar Configuration section before starting the loop.
-
-### "No workspace folder open"
-Open a folder in VS Code before starting Ralph Loop.
-
-### Loop not responding
-Use `Ralph: Emergency Stop Ralph Loop` from the Command Palette (Cmd/Ctrl+Shift+P).
-
-### Token extraction failing
-Ensure Antigravity is running. If auto-discovery fails, manually configure the CSRF token and port in settings.
-
-## Links
-
-- [Extension Repository](https://github.com/abhishekbhakat/ralph-loop-for-antigravity)
-- [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=abhishekbhakat.ralph-loop-for-antigravity)
-- [Open VSX Registry](https://open-vsx.org/extension/abhishekbhakat/ralph-loop-for-antigravity)
-
-## License
-
-MIT
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
